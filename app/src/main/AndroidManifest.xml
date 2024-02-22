@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.lockboxth.lockboxkiosk">
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.Manifest.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.Manifest.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+    <uses-feature android:name="android.hardware.usb.host" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <application
+        android:hardwareAccelerated="true"
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/ic_app"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@drawable/ic_app"
+        android:supportsRtl="true"
+        android:testOnly="false"
+        android:theme="@style/Theme.LockBox"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+        <activity
+            android:name=".PudoWalkinWaybillActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PudoWarningActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CpConfirmOpenActivity"
+            android:exported="true">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".SelectUserTypeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RfidPaymentActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".RfidVerifyActivity"
+            android:exported="true"
+            android:windowSoftInputMode="stateAlwaysHidden">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".PudoWalkInPaymentSummaryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PudoWalkInAddressDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PudoPickupPointActivity"
+            android:exported="true">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".KeyValSelectorActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name=".PudoAddReceiverActivity"
+            android:exported="true" />
+        <activity
+            android:name=".PickupLocationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SelectedBankActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name=".PudoAddBankAccountActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".SelectBankAccountActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Transparent"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".PudoServiceFeeSummaryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SelectParcelSizeActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name=".SelectParcelTypeActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name=".PudoParcelDetailActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".PudoSenderSelectTypeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PudoCardIdentifyActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.lockboxth.lockboxkiosk.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
+        </provider>
+
+        <activity
+            android:name=".PudoPickupActivity"
+            android:exported="true" />
+        <activity
+            android:name=".PudoSelectShipmentActivity"
+            android:exported="false">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".PudoCourierSelectTypeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".QrCodeScannerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PudoSenderOrderConfirmActivity"
+            android:exported="true" />
+        <activity
+            android:name=".PudoSenderOrderDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".PudoActivity"
+            android:exported="true" />
+        <activity
+            android:name=".TopupSuccessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TopupMethodActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ScreenServerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterKioskActivity"
+            android:directBootAware="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+                <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SearchCountryCodeActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".TopupActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".PudoVerifyTypeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".TakeOutActivity"
+            android:exported="true" />
+        <activity
+            android:name=".PaymentSuccessActivity"
+            android:exported="true">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".CashPaymentActivity"
+            android:exported="true" />
+        <activity
+            android:name=".QrCodePaymentActivity"
+            android:exported="true" />
+        <activity
+            android:name=".FingerScanerOpenLockerActivity"
+            android:exported="true" />
+        <activity
+            android:name=".TotalPaymentSummaryActivity"
+            android:exported="true" />
+        <activity
+            android:name=".PaymentMethodActivity"
+            android:exported="true"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".ServiceFeeSummaryActivity"
+            android:exported="true" />
+        <activity
+            android:name=".LockerPasswordActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ConsentActivity"
+            android:exported="true" />
+        <activity
+            android:name=".OtpActivity"
+            android:exported="true" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="true"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".SelectLockBoxActivity"
+            android:exported="true" />
+        <activity
+            android:name=".LockerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+
+        <service android:name=".service.firebase.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".service.firebase.MyFirebaseMessagingService"
+            android:stopWithTask="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name=".DevAdminReceiver"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin" />
+        </receiver>
+        <receiver android:name=".service.update.UpdateReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+        <meta-data
+            android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+            android:resource="@xml/device_filter" />
+    </application>
+
+</manifest>

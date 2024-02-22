@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".RegisterActivity">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:src="@drawable/ic_warning_2" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/confirm_print"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_marginTop="16dp"
+        android:id="@+id/btnPrinted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_dialog_cancel"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingTop="4dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="4dp">
+
+        <ImageView
+            android:id="@+id/imgPrinted"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:padding="6dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_check"
+            app:tint="@color/black" />
+
+        <TextView
+            android:id="@+id/tvPrinted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:text="@string/printed"
+            android:textColor="@color/black" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_marginTop="16dp"
+        android:id="@+id/btnPrint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_dialog_cancel"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingTop="4dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="4dp">
+
+        <ImageView
+            android:id="@+id/imgPrint"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:padding="6dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_print"
+            app:tint="@color/black" />
+
+        <TextView
+            android:id="@+id/tvPrint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:text="@string/print_pudo"
+            android:textColor="@color/black" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:gravity="center_vertical"
+            android:id="@+id/btnConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/card_item_purple"
+            android:orientation="horizontal"
+            android:paddingLeft="32dp"
+            android:paddingTop="4dp"
+            android:paddingRight="32dp"
+            android:paddingBottom="4dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:padding="6dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_check" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:text="@string/confirm"
+                android:textColor="@color/white" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </LinearLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

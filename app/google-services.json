@@ -1,0 +1,143 @@
+{
+  "project_info": {
+    "project_number": "239844615513",
+    "firebase_url": "https://lockbox-th.firebaseio.com",
+    "project_id": "lockbox-th",
+    "storage_bucket": "lockbox-th.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:239844615513:android:c6d4877d11f4d732451848",
+        "android_client_info": {
+          "package_name": "com.lockboxth.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "239844615513-su0u1f8r27j8othmnpgf7s7faelqh3bu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOopQRyWEFUKa3uWL_xqV6LP0rZG8mZ9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "239844615513-su0u1f8r27j8othmnpgf7s7faelqh3bu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "239844615513-83g5ls71l3bed867ceaqscilculhese1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lockboxth.lockbox"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:239844615513:android:24a081a16318c13d",
+        "android_client_info": {
+          "package_name": "com.lockboxth.lockbox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "239844615513-b7t70sap7hn2fme8gq982ve4v2qqf5os.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lockboxth.lockbox",
+            "certificate_hash": "ec7e0fb1df2287fb2ba15c7034ca8079bdcdff58"
+          }
+        },
+        {
+          "client_id": "239844615513-efog890mfjce14uodpia8stdgvae7lhm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lockboxth.lockbox",
+            "certificate_hash": "5dfd381ec3f472bdb714bc400ef640171378f09c"
+          }
+        },
+        {
+          "client_id": "239844615513-ju6kbuneucnkim9va4t4u4gbf43io2u5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lockboxth.lockbox",
+            "certificate_hash": "c16c84d9f6b0f8aa82238f918144f2aa1e8c832d"
+          }
+        },
+        {
+          "client_id": "239844615513-su0u1f8r27j8othmnpgf7s7faelqh3bu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOopQRyWEFUKa3uWL_xqV6LP0rZG8mZ9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "239844615513-su0u1f8r27j8othmnpgf7s7faelqh3bu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "239844615513-83g5ls71l3bed867ceaqscilculhese1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lockboxth.lockbox"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:239844615513:android:0fe3c89cee55bcc8451848",
+        "android_client_info": {
+          "package_name": "com.lockboxth.lockboxkiosk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "239844615513-su0u1f8r27j8othmnpgf7s7faelqh3bu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOopQRyWEFUKa3uWL_xqV6LP0rZG8mZ9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "239844615513-su0u1f8r27j8othmnpgf7s7faelqh3bu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "239844615513-83g5ls71l3bed867ceaqscilculhese1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lockboxth.lockbox"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".ServiceFeeSummaryActivity">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <RelativeLayout
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/card_item_white">
+
+            <ImageView
+                android:id="@+id/imgLockerSize"
+                android:layout_width="30dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_size_s" />
+
+            <TextView
+                android:id="@+id/tvSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgLockerSize"
+                android:text="S = 1"
+                android:textAlignment="center"
+                android:textColor="@color/purple"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Loker No. S01"
+                android:textColor="@color/purple" />
+
+            <TextView
+                android:id="@+id/tvText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="ค่าบริการต่อชั่วโมง 30 บาท / ชั่วโมง"
+                android:textColor="@color/purple" />
+
+            <TextView
+                android:id="@+id/tvText3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="ค่าบริการขั้นต่ำ 2 ชั่วโมง"
+                android:textColor="@color/purple"
+                android:textSize="18sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/purple" />
+
+            <TextView
+                android:id="@+id/tvText4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="ค่าบริการต่อวัน 180 บาท / วัน"
+                android:textColor="@color/purple" />
+
+            <TextView
+                android:id="@+id/tvText5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="60 บาท"
+                android:textAlignment="textEnd"
+                android:textColor="@color/purple"
+                android:textSize="18sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="?android:attr/listDivider" />
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+
