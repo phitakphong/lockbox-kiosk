@@ -25,8 +25,8 @@ class RegisterKioskActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_kiosk)
 
-//        etSerialNumber.setText("ADDEMO001")
-//        etMasterKey.setText("WHgPYikp")
+        etSerialNumber.setText("ADDEMO001")
+        etMasterKey.setText("WHgPYikp")
 
 //        etSerialNumber.setText("LSB0054")
 //        etMasterKey.setText("ciNbcvWj")

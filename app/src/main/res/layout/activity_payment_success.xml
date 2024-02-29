@@ -49,15 +49,15 @@
                 android:src="@drawable/ic_right_bg" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:paddingVertical="24dp"
-                android:layout_centerVertical="true"
                 android:id="@+id/lv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginHorizontal="140dp"
                 android:background="@drawable/card_item_white_2"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingVertical="24dp">
 
                 <ImageView
                     android:layout_width="60dp"
@@ -91,6 +91,95 @@
                     android:text="-"
                     android:textColor="@color/purple"
                     android:textSize="12sp" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/btnMore"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/more"
+                        android:textColor="@color/purple"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/btnNo"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/card_item_red"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingLeft="8dp"
+                            android:paddingTop="4dp"
+                            android:paddingRight="8dp"
+                            android:paddingBottom="4dp">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="25dp"
+                                android:padding="6dp"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/ic_close" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="4dp"
+                                android:paddingRight="4dp"
+                                android:text="@string/no"
+                                android:textColor="@color/white" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <View
+                            android:layout_width="16dp"
+                            android:layout_height="match_parent" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/btnYes"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/card_item_purple"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingLeft="8dp"
+                            android:paddingTop="4dp"
+                            android:paddingRight="8dp"
+                            android:paddingBottom="4dp">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="25dp"
+                                android:padding="6dp"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/ic_check" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="4dp"
+                                android:paddingRight="4dp"
+                                android:text="@string/yes"
+                                android:textColor="@color/white" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    </LinearLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
 
                 <TextView
 

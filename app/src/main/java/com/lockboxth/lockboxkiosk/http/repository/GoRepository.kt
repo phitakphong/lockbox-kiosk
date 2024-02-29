@@ -8,6 +8,8 @@ import com.lockboxth.lockboxkiosk.http.NetService
 import com.lockboxth.lockboxkiosk.http.api.*
 import com.lockboxth.lockboxkiosk.http.model.cp.*
 import com.lockboxth.lockboxkiosk.http.model.go.*
+import com.lockboxth.lockboxkiosk.http.model.locker.LockerCheckoutResponse
+import com.lockboxth.lockboxkiosk.http.model.pudo.PudoReceiverCheckoutRequest
 import com.lockboxth.lockboxkiosk.http.model.pudo.PudoSenderFinishRequest
 import com.lockboxth.lockboxkiosk.http.model.topup.*
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -60,7 +62,7 @@ class GoRepository {
             })
     }
 
-    fun goDropReceiverVerify(req: GoReceiverVerifyRequest, onSuccess: () -> Unit, onFailure: (String) -> Unit) {
+    fun goDropReceiverVerify(req: GoReceiverVerifyRequest, onSuccess: (GoDropVerifyResponse) -> Unit, onFailure: (String) -> Unit) {
         val api = NetService.getRetrofit().create(GoAPI::class.java)
         api.goDropReceiverVerify(req)
             .subscribeOn(Schedulers.io())
@@ -69,7 +71,7 @@ class GoRepository {
             .subscribe({
                 if (it.isSuccessful) {
                     if (it.body()!!.status) {
-                        onSuccess()
+                        onSuccess(it.body()!!.info)
                     } else {
                         val message = "${it.body()!!.code} : ${it.body()!!.message}"
                         Log.d("API Response Error", message)
@@ -185,7 +187,7 @@ class GoRepository {
             })
     }
 
-    fun goDropFinish(req: PudoSenderFinishRequest, onSuccess: (String) -> Unit, onFailure: (HttpResponse<Any>) -> Unit) {
+    fun goDropFinish(req: PudoSenderFinishRequest, onSuccess: (String, GoInfoConfirmResponse) -> Unit, onFailure: (HttpResponse<Any>) -> Unit) {
         val api = NetService.getRetrofit().create(GoAPI::class.java)
         api.goDropFinish(req)
             .subscribeOn(Schedulers.io())
@@ -193,7 +195,7 @@ class GoRepository {
             .unsubscribeOn(Schedulers.io())
             .subscribe({
                 if (it.isSuccessful) {
-                    onSuccess(it.body()!!.code!!)
+                    onSuccess(it.body()!!.code!!, it.body()!!.info)
                 } else {
                     val error = Util.handleResponseErrorObj(it.errorBody()!!.string())
                     onFailure(error)
@@ -254,7 +256,7 @@ class GoRepository {
             })
     }
 
-    fun goPickupConfirm(req: GoPickupConfirmRequest, onSuccess: (GoPickupConfirmResponse) -> Unit, onFailure: (String) -> Unit) {
+    fun goPickupConfirm(req: GoPickupConfirmRequest, onSuccess: (String, GoPickupConfirmResponse) -> Unit, onFailure: (String) -> Unit) {
         val api = NetService.getRetrofit().create(GoAPI::class.java)
         api.goPickupConfirm(req)
             .subscribeOn(Schedulers.io())
@@ -263,7 +265,7 @@ class GoRepository {
             .subscribe({
                 if (it.isSuccessful) {
                     if (it.body()!!.status) {
-                        onSuccess(it.body()!!.info)
+                        onSuccess(it.body()!!.code!!, it.body()!!.info)
                     } else {
                         val message = "${it.body()!!.code} : ${it.body()!!.message}"
                         Log.d("API Response Error", message)
@@ -339,6 +341,81 @@ class GoRepository {
                 if (it.isSuccessful) {
                     if (it.body()!!.status) {
                         onSuccess(it.body()!!.info)
+                    } else {
+                        val message = "${it.body()!!.code} : ${it.body()!!.message}"
+                        Log.d("API Response Error", message)
+                        onFailure(it.body()!!.message!!)
+                    }
+                } else {
+                    val error = Util.handleResponseErrorMessage(it.errorBody()!!.string())
+                    onFailure(error)
+                }
+            }, {
+                it.printStackTrace()
+                onFailure("เกิดข้อผิดพลาด กรุณาลองใหม่ภายหลัง")
+            })
+    }
+
+    fun pickupPaymentConfirm(req: GoPaymentConfirmRequest, onSuccess: (GoPaymentConfirmResponse) -> Unit, onFailure: (String) -> Unit) {
+        val api = NetService.getRetrofit().create(GoAPI::class.java)
+        api.pickupPaymentConfirm(req)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .unsubscribeOn(Schedulers.io())
+            .subscribe({
+                if (it.isSuccessful) {
+                    if (it.body()!!.status) {
+                        onSuccess(it.body()!!.info)
+                    } else {
+                        val message = "${it.body()!!.code} : ${it.body()!!.message}"
+                        Log.d("API Response Error", message)
+                        onFailure(it.body()!!.message!!)
+                    }
+                } else {
+                    val error = Util.handleResponseErrorMessage(it.errorBody()!!.string())
+                    onFailure(error)
+                }
+            }, {
+                it.printStackTrace()
+                onFailure("เกิดข้อผิดพลาด กรุณาลองใหม่ภายหลัง")
+            })
+    }
+
+    fun pickupCancel(req: GoPaymentCancelRequest, onSuccess: (GoPaymentCancelResponse) -> Unit, onFailure: (String) -> Unit) {
+        val api = NetService.getRetrofit().create(GoAPI::class.java)
+        api.pickupCancel(req)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .unsubscribeOn(Schedulers.io())
+            .subscribe({
+                if (it.isSuccessful) {
+                    if (it.body()!!.status) {
+                        onSuccess(it.body()!!.info!!)
+                    } else {
+                        val message = "${it.body()!!.code} : ${it.body()!!.message}"
+                        Log.d("API Response Error", message)
+                        onFailure(it.body()!!.message!!)
+                    }
+                } else {
+                    val error = Util.handleResponseErrorMessage(it.errorBody()!!.string())
+                    onFailure(error)
+                }
+            }, {
+                it.printStackTrace()
+                onFailure("เกิดข้อผิดพลาด กรุณาลองใหม่ภายหลัง")
+            })
+    }
+
+    fun pickupCheckout(req: PudoReceiverCheckoutRequest, onSuccess: (String, LockerCheckoutResponse) -> Unit, onFailure: (String) -> Unit) {
+        val api = NetService.getRetrofit().create(GoAPI::class.java)
+        api.pickupCheckout(req)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .unsubscribeOn(Schedulers.io())
+            .subscribe({
+                if (it.isSuccessful) {
+                    if (it.body()!!.status) {
+                        onSuccess(it.body()!!.code!!, it.body()!!.info)
                     } else {
                         val message = "${it.body()!!.code} : ${it.body()!!.message}"
                         Log.d("API Response Error", message)

@@ -4,12 +4,16 @@ import com.lockboxth.lockboxkiosk.http.HttpResponse
 import com.lockboxth.lockboxkiosk.http.model.cp.CpParcelResponse
 import com.lockboxth.lockboxkiosk.http.model.cp.CpReOpenRequest
 import com.lockboxth.lockboxkiosk.http.model.go.*
+import com.lockboxth.lockboxkiosk.http.model.locker.CancelTransactionRequest
+import com.lockboxth.lockboxkiosk.http.model.locker.LockerCheckoutResponse
+import com.lockboxth.lockboxkiosk.http.model.pudo.PudoReceiverCheckoutRequest
 import com.lockboxth.lockboxkiosk.http.model.pudo.PudoSenderFinishRequest
 
 import io.reactivex.Flowable
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface GoAPI {
 
@@ -21,7 +25,7 @@ interface GoAPI {
     @POST("kiosk/go/drop/receiver")
     fun goDropReceiverVerify(
         @Body req: GoReceiverVerifyRequest
-    ): Flowable<Response<HttpResponse<Any>>>
+    ): Flowable<Response<HttpResponse<GoDropVerifyResponse>>>
 
     @POST("kiosk/go/drop/locker")
     fun goLockerLayout(
@@ -46,7 +50,7 @@ interface GoAPI {
     @POST("kiosk/go/drop/finish")
     fun goDropFinish(
         @Body req: PudoSenderFinishRequest
-    ): Flowable<Response<HttpResponse<Any>>>
+    ): Flowable<Response<HttpResponse<GoInfoConfirmResponse>>>
 
     @POST("kiosk/go/drop/reopen")
     fun dropReOpen(
@@ -62,6 +66,22 @@ interface GoAPI {
     fun goPickupConfirm(
         @Body req: GoPickupConfirmRequest
     ): Flowable<Response<HttpResponse<GoPickupConfirmResponse>>>
+
+    @POST("kiosk/go/pickup/payment")
+    fun pickupPaymentConfirm(
+        @Body req: GoPaymentConfirmRequest
+    ): Flowable<Response<HttpResponse<GoPaymentConfirmResponse>>>
+
+    @POST("kiosk/go/pickup/checkout")
+    fun pickupCheckout(
+        @Body req: PudoReceiverCheckoutRequest
+    ): Flowable<Response<HttpResponse<LockerCheckoutResponse>>>
+
+    @POST("kiosk/go/pickup/cancel")
+    fun pickupCancel(
+        @Body req: GoPaymentCancelRequest
+    ): Flowable<Response<HttpResponse<GoPaymentCancelResponse?>>>
+
 
     @POST("kiosk/go/pickup/callback")
     fun goPickupCallback(

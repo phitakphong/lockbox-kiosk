@@ -19,6 +19,7 @@ import com.lockboxth.lockboxkiosk.helpers.BaseActivity
 import com.lockboxth.lockboxkiosk.helpers.TransactionType
 import com.lockboxth.lockboxkiosk.helpers.Util
 import com.lockboxth.lockboxkiosk.http.model.go.GoLockerLayoutRequest
+import com.lockboxth.lockboxkiosk.http.model.go.GoLockerSelectRequest
 import com.lockboxth.lockboxkiosk.http.model.locker.ConfirmSelectLockerRequest
 import com.lockboxth.lockboxkiosk.http.model.locker.LockerLayoutResponse
 import com.lockboxth.lockboxkiosk.http.model.locker.LockerOutRequest
@@ -132,10 +133,23 @@ class SelectLockBoxActivity : BaseActivity() {
                             return@forEach
                         }
                     }
-                    val intent = Intent(this@SelectLockBoxActivity, ServiceFeeSummaryActivity::class.java)
-                    intent.putExtra("block_use", blockUse)
-                    startActivity(intent)
-                    finish()
+
+                    showProgressDialog()
+                    GoRepository.getInstance().goDropSelect(
+                        GoLockerSelectRequest(appPref.kioskInfo!!.generalprofile_id, appPref.currentTransactionId!!, blockUse),
+                        onSuccess = { resp ->
+                            ServiceFeeSummaryActivity.goDropSummary = resp
+                            val intent = Intent(this@SelectLockBoxActivity, ServiceFeeSummaryActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        },
+                        onFailure = { e ->
+                            hideProgressDialog()
+                            showMessage(e)
+                        }
+                    )
+
+
                 }
             }
             else -> {

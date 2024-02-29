@@ -34,6 +34,7 @@ import kotlinx.android.synthetic.main.activity_pudo_sender_order_confirm.*
 class PudoSenderOrderConfirmActivity : BaseActivity() {
 
     private var currentState: String? = null
+    private var isCreate = true
 
     companion object {
         var currentLockerName: String = ""
@@ -52,7 +53,6 @@ class PudoSenderOrderConfirmActivity : BaseActivity() {
 
     private var hardwareService: HardwareService? = HardwareService.getInstance()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pudo_sender_order_confirm)
@@ -70,6 +70,11 @@ class PudoSenderOrderConfirmActivity : BaseActivity() {
         }
 
         btnSenderCancel.setOnClickListener {
+            clearState()
+            setOnClick(it.tag.toString())
+        }
+
+        btnSenderNew.setOnClickListener {
             clearState()
             setOnClick(it.tag.toString())
         }
@@ -163,7 +168,8 @@ class PudoSenderOrderConfirmActivity : BaseActivity() {
                     }, 1500)
                 }
                 "Cancel" -> {
-                    val hideSub = appPref.currentTransactionType == TransactionType.GO_IN || appPref.currentTransactionType == TransactionType.PUDO_CP_DROP  || appPref.currentTransactionType == TransactionType.ADIDAS_DROP
+                    val hideSub =
+                        appPref.currentTransactionType == TransactionType.GO_IN || appPref.currentTransactionType == TransactionType.PUDO_CP_DROP || appPref.currentTransactionType == TransactionType.ADIDAS_DROP
                     ConfirmCancelPuduSendDialog.newInstance().apply {
                         hideSubtitle = hideSub
                         onOkClickListener = {
@@ -175,6 +181,10 @@ class PudoSenderOrderConfirmActivity : BaseActivity() {
                     }.run {
                         show(supportFragmentManager, "")
                     }
+                }
+                "New" -> {
+                    val intent = Intent(this@PudoSenderOrderConfirmActivity, PudoSenderOrderConfirmNewActivity::class.java)
+                    startActivity(intent)
                 }
                 else -> {
 
@@ -217,6 +227,15 @@ class PudoSenderOrderConfirmActivity : BaseActivity() {
             }
         }
 
+        when (appPref.currentTransactionType) {
+            TransactionType.GO_IN -> {
+                btnSenderNew.visibility = View.VISIBLE
+            }
+            else -> {
+                btnSenderNew.visibility = View.GONE
+            }
+        }
+
         btnReOpen.setOnClickListener {
             reOpen()
         }
@@ -230,6 +249,7 @@ class PudoSenderOrderConfirmActivity : BaseActivity() {
             "Confirm" -> ContextCompat.getDrawable(this, R.drawable.btn_item_blue)
             "Change" -> ContextCompat.getDrawable(this, R.drawable.btn_item_yellow)
             "Cancel" -> ContextCompat.getDrawable(this, R.drawable.btn_item_red)
+            "New" -> ContextCompat.getDrawable(this, R.drawable.btn_item_green)
             else -> {
                 ContextCompat.getDrawable(this, R.drawable.card_item_white_border_gray_radius_16)
             }
@@ -267,6 +287,10 @@ class PudoSenderOrderConfirmActivity : BaseActivity() {
         btnSenderCancel.background = defaultBackground
         imgSenderCancel.setColorFilter(colorBlack)
         tvSenderCancel.setTextColor(colorBlack)
+
+        btnSenderNew.background = defaultBackground
+        imgSenderNew.setColorFilter(colorBlack)
+        tvSenderNew.setTextColor(colorBlack)
 
         currentState = null
 
@@ -498,7 +522,7 @@ class PudoSenderOrderConfirmActivity : BaseActivity() {
                 } else if (appPref.currentTransactionType == TransactionType.GO_IN) {
                     GoRepository.getInstance().goDropFinish(
                         req,
-                        onSuccess = { code ->
+                        onSuccess = { code, resp ->
                             hideProgressDialog()
                             if (code == "CANCEL") {
                                 CustomDialog.newInstance(R.layout.dialog_confirm_cancel_success).apply {
@@ -697,35 +721,37 @@ class PudoSenderOrderConfirmActivity : BaseActivity() {
 
         Log.d("OPENZ", "openLocker : " + isOpenCommand.toString())
 
-        if (!reOpen) {
-            Handler(Looper.getMainLooper()).postDelayed({
-                if (!findSuccess) {
-                    hideProgressDialog()
-                    if (tvCountdown.text.toString() !== "00:00") {
-                        showMessage(getString(R.string.search_locker_fail), onAcceptClick = {
-                            appPref.currentTransactionId = null
-                            onCancel()
-                        })
+//        if (!reOpen) {
+//            Handler(Looper.getMainLooper()).postDelayed({
+//                if (!findSuccess) {
+//                    hideProgressDialog()
+//                    if (tvCountdown.text.toString() !== "00:00") {
+//                        showMessage(getString(R.string.search_locker_fail), onAcceptClick = {
+//                            appPref.currentTransactionId = null
+//                            onCancel()
+//                        })
+//
+//                    } else {
+//                        showMessage(getString(R.string.search_locker_fail))
+//                    }
+//                }
+//            }, 3000)
+//        } else {
+//            Handler(Looper.getMainLooper()).postDelayed({
+//                if (!findSuccess) {
+//                    hideProgressDialog()
+//                    if (tvCountdown.text.toString() !== "00:00") {
+//                        showMessage(getString(R.string.re_open_fail), onAcceptClick = {
+//
+//                        })
+//                    } else {
+//                        showMessage(getString(R.string.re_open_fail))
+//                    }
+//                }
+//            }, 3000)
+//        }
 
-                    } else {
-                        showMessage(getString(R.string.search_locker_fail))
-                    }
-                }
-            }, 3000)
-        } else {
-            Handler(Looper.getMainLooper()).postDelayed({
-                if (!findSuccess) {
-                    hideProgressDialog()
-                    if (tvCountdown.text.toString() !== "00:00") {
-                        showMessage(getString(R.string.re_open_fail), onAcceptClick = {
-
-                        })
-                    } else {
-                        showMessage(getString(R.string.re_open_fail))
-                    }
-                }
-            }, 3000)
-        }
+        hideProgressDialog()
 
 
     }
@@ -868,8 +894,18 @@ class PudoSenderOrderConfirmActivity : BaseActivity() {
         super.onDestroy()
     }
 
+
+    override fun onPause() {
+        timerPause()
+        super.onPause()
+    }
+
     override fun onResume() {
         super.onResume()
+        if (!isCreate) {
+            timerResume()
+        }
+        isCreate = false
     }
 
 

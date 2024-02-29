@@ -7,11 +7,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.lockboxth.lockboxkiosk.customdialog.*
 import com.lockboxth.lockboxkiosk.helpers.BaseActivity
 import com.lockboxth.lockboxkiosk.helpers.TransactionType
 import com.lockboxth.lockboxkiosk.helpers.Util
 import com.lockboxth.lockboxkiosk.http.HttpResponse
+import com.lockboxth.lockboxkiosk.http.model.go.GoLockerSelectResponse
 import com.lockboxth.lockboxkiosk.http.model.go.GoReceiverVerifyRequest
 import com.lockboxth.lockboxkiosk.http.model.go.GoSenderVerifyRequest
 import com.lockboxth.lockboxkiosk.http.model.locker.LockerBookingRecheckRequest
@@ -108,6 +111,7 @@ class RegisterActivity : BaseActivity() {
                 initPudoWalkin()
             }
             TransactionType.GO_IN -> {
+                isGoOut = intent.getBooleanExtra("isGoOut", false)
                 initGoIn()
             }
             else -> {}
@@ -286,11 +290,13 @@ class RegisterActivity : BaseActivity() {
     private fun initGoIn() {
         tvTitle2.text = getString(R.string.go_in)
         tvTitle2.visibility = View.VISIBLE
-        tvTitle2.setTextColor(ContextCompat.getColor(this,R.color.sender))
+        tvTitle2.setTextColor(ContextCompat.getColor(this, R.color.sender))
         tvTitle0.text = getString(R.string.go_phone_number)
+        if(isGoOut){
+            tvTitle2.text = getString(R.string.go_out)
+            tvTitle2.setTextColor(ContextCompat.getColor(this, R.color.receiver))
+        }
         btnConfirm.setOnClickListener {
-            val phoneNumber = getPhoneNumber()
-
             showProgressDialog()
             if (!isGoOut) {
                 GoRepository.getInstance().goDropVerify(
@@ -301,7 +307,7 @@ class RegisterActivity : BaseActivity() {
                         isGoOut = true
                         onNumberPress("")
                         tvTitle2.text = getString(R.string.go_out)
-                        tvTitle2.setTextColor(ContextCompat.getColor(this,R.color.receiver))
+                        tvTitle2.setTextColor(ContextCompat.getColor(this, R.color.receiver))
                     },
                     onFailure = { err ->
                         hideProgressDialog()
@@ -311,11 +317,30 @@ class RegisterActivity : BaseActivity() {
             } else {
                 GoRepository.getInstance().goDropReceiverVerify(
                     GoReceiverVerifyRequest(appPref.kioskInfo!!.generalprofile_id, appPref.currentTransactionId!!, getPhoneNumber()),
-                    onSuccess = {
+                    onSuccess = { resp ->
                         hideProgressDialog()
-                        val intent = Intent(this@RegisterActivity, SelectLockBoxActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                        if (resp.exist_locker) {
+
+                            ServiceFeeSummaryActivity.goDropSummary = GoLockerSelectResponse(
+                                sender_phone = resp.sender_phone!!,
+                                receiver_phone = resp.receiver_phone!!,
+                                is_ap = resp.is_ap!!,
+                                amount = resp.amount!!,
+                                discount = resp.discount!!,
+                                fee = resp.fee!!,
+                                time_limit = resp.time_limit!!,
+                                details = resp.details!!
+                            )
+
+                            val intent = Intent(this@RegisterActivity, ServiceFeeSummaryActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            val intent = Intent(this@RegisterActivity, SelectLockBoxActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+
                     },
                     onFailure = { err ->
                         hideProgressDialog()

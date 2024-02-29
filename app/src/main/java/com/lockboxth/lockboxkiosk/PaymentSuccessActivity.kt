@@ -151,6 +151,22 @@ class PaymentSuccessActivity : BaseActivity() {
             }, 3000)
 
         }
+
+        if (appPref.currentTransactionType == TransactionType.GO_IN) {
+            btnMore.visibility = View.VISIBLE
+            btnNo.setOnClickListener {
+                appPref.currentTransactionId = null
+                onCancel()
+            }
+            btnYes.setOnClickListener {
+                val intent = Intent(this@PaymentSuccessActivity, RegisterActivity::class.java)
+                intent.putExtra("isGoOut", true)
+                startActivity(intent)
+                finish()
+            }
+        } else {
+            btnMore.visibility = View.GONE
+        }
     }
 
     private fun processRead() {
@@ -289,7 +305,12 @@ class PaymentSuccessActivity : BaseActivity() {
     }
 
     private fun countDown() {
-        setTimeoutSecond(10, null) {
+        val timeout = if (appPref.currentTransactionType == TransactionType.GO_IN) {
+            30
+        } else {
+            10
+        }
+        setTimeoutSecond(timeout, null) {
             appPref.currentTransactionId = null
             onCancel()
         }

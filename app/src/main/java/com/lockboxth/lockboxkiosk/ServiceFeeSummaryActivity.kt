@@ -10,14 +10,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.lockboxth.lockboxkiosk.adapter.GoInServiceFeeRecyclerAdapter
+import com.lockboxth.lockboxkiosk.adapter.GoOutServiceFeeRecyclerAdapter
 import com.lockboxth.lockboxkiosk.adapter.ServiceFeeRecyclerAdapter
 import com.lockboxth.lockboxkiosk.helpers.BaseActivity
 import com.lockboxth.lockboxkiosk.helpers.TransactionType
 import com.lockboxth.lockboxkiosk.helpers.Util
-import com.lockboxth.lockboxkiosk.http.model.go.GoInfoConfirmRequest
-import com.lockboxth.lockboxkiosk.http.model.go.GoLockerSelectRequest
-import com.lockboxth.lockboxkiosk.http.model.go.GoPickupConfirmRequest
-import com.lockboxth.lockboxkiosk.http.model.go.GoPickupVerifyResponse
+import com.lockboxth.lockboxkiosk.http.model.go.*
 import com.lockboxth.lockboxkiosk.http.model.locker.LockerCalculateRequest
 import com.lockboxth.lockboxkiosk.http.repository.GoRepository
 import com.lockboxth.lockboxkiosk.http.repository.LockerRepository
@@ -39,6 +38,7 @@ class ServiceFeeSummaryActivity : BaseActivity() {
 
     companion object {
         var goOutSummary: GoPickupVerifyResponse? = null
+        var goDropSummary: GoLockerSelectResponse? = null
     }
 
     @SuppressLint("SetTextI18n")
@@ -103,41 +103,34 @@ class ServiceFeeSummaryActivity : BaseActivity() {
         when (appPref.currentTransactionType) {
             TransactionType.GO_IN -> {
                 tvTitle0.text = getString(R.string.service_fee_summary)
-                val blockUse = intent.getIntExtra("block_use", 0)
                 layoutGo.visibility = View.VISIBLE
-                GoRepository.getInstance().goDropSelect(
-                    GoLockerSelectRequest(appPref.kioskInfo!!.generalprofile_id, appPref.currentTransactionId!!, blockUse),
-                    onSuccess = { resp ->
-                        hideProgressDialog()
-                        recyclerView.adapter = ServiceFeeRecyclerAdapter(this@ServiceFeeSummaryActivity, resp.details, resp.time_limit)
-                        if (resp.fee > 0) {
-                            tvTotal0.visibility = View.VISIBLE
-                            tvTotal0.text = Util.formatMoney(resp.fee)
-                            tvTotal0.paintFlags = tvTotal0.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                        }
-                        tvTotal.text = Util.formatMoney(resp.amount)
-                        tvSender.text = resp.sender_phone
-                        tvReceiver.text = resp.receiver_phone
-                        if (resp.is_ap) {
-                            tvTitle.text = getString(R.string.ap_service)
-                        } else {
-                            tvTitle.text = getString(R.string.min_service).replace("HHH", resp.time_limit.toString())
-                        }
-                    },
-                    onFailure = { error ->
-                        hideProgressDialog()
-                        showMessage(error)
-                    }
-                )
+
+                val resp = goDropSummary!!
+
+                recyclerView.adapter = GoInServiceFeeRecyclerAdapter(this@ServiceFeeSummaryActivity, resp.details)
+                if (resp.fee > 0) {
+                    tvTotal0.visibility = View.VISIBLE
+                    tvTotal0.text = Util.formatMoney(resp.fee)
+                    tvTotal0.paintFlags = tvTotal0.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                }
+                tvTotal.text = Util.formatMoney(resp.amount)
+                tvSender.text = resp.sender_phone
+                tvReceiver.text = resp.receiver_phone
+                if (resp.is_ap) {
+                    tvTitle.text = getString(R.string.go_service_summary).replace("XXX", resp.time_limit.toString())
+                } else {
+                    tvTitle.text = getString(R.string.min_service).replace("HHH", resp.time_limit.toString())
+                }
+
+                hideProgressDialog()
+
             }
             TransactionType.GO_OUT -> {
                 hideProgressDialog()
                 tvTitle0.text = getString(R.string.service_fee_summary)
-                if (goOutSummary!!.is_ap) {
-                    tvTitle.text = getString(R.string.ap_service)
-                }
-                recyclerView.adapter = ServiceFeeRecyclerAdapter(this@ServiceFeeSummaryActivity, goOutSummary!!.details, goOutSummary!!.time_over)
-                tvTotal.text = Util.formatMoney(goOutSummary!!.amount)
+                tvTitle.text = getString(R.string.go_service_summary).replace("XXX", goOutSummary!!.time_limit.toString())
+                recyclerView.adapter = GoOutServiceFeeRecyclerAdapter(this@ServiceFeeSummaryActivity, goOutSummary!!.details)
+                tvTotal.text = Util.formatMoney(goOutSummary!!.total_amount)
                 if (goOutSummary!!.fee > 0) {
                     tvTotal0.text = Util.formatMoney(goOutSummary!!.fee)
                     tvTotal0.paintFlags = tvTotal0.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
@@ -175,21 +168,26 @@ class ServiceFeeSummaryActivity : BaseActivity() {
                 )
             }
         }
-
-
     }
 
     fun submitGout(base64: String = "") {
         GoRepository.getInstance().goPickupConfirm(
             GoPickupConfirmRequest(appPref.kioskInfo!!.generalprofile_id, appPref.currentTransactionId!!, base64),
-            onSuccess = { resp ->
+            onSuccess = { code, resp ->
+                if (code == "OPEN") {
+                    val cmdJson = Gson().toJson(resp.locker_commands)
+                    val intent = Intent(this@ServiceFeeSummaryActivity, CpConfirmOpenActivity::class.java)
+                    intent.putExtra("locker_no", resp.locker_no)
+                    intent.putExtra("locker_commands", cmdJson)
+                    intent.putExtra("event_type", resp.event_type)
+                    startActivity(intent)
+                } else {
+                    val intent = Intent(this@ServiceFeeSummaryActivity, PaymentMethodActivity::class.java)
+                    intent.putExtra("amount_pay", resp.amount_pay)
+                    intent.putExtra("payment_method", resp.payment_method)
+                    startActivity(intent)
+                }
                 hideProgressDialog()
-                val cmdJson = Gson().toJson(resp.locker_commands)
-                val intent = Intent(this@ServiceFeeSummaryActivity, CpConfirmOpenActivity::class.java)
-                intent.putExtra("locker_no", resp.locker_no)
-                intent.putExtra("locker_commands", cmdJson)
-                intent.putExtra("event_type", resp.event_type)
-                startActivity(intent)
                 finish()
             },
             onFailure = { err ->

@@ -117,14 +117,13 @@ open class BaseActivity : AppCompatActivity() {
         openLockerSubscriber = NotificationsManager.instance!!.getNotificationObservable().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe { data ->
             Log.d("OpenLocker", "getNotificationObservable")
             val d = Gson().fromJson(Gson().toJson(data), NotificationsData::class.java)
-            if (appPref.currentTransactionType != TransactionType.PUDO_SENDER_WALKIN) {
-                if (d.event_type == "topup") {
-                    val intent = Intent(this@BaseActivity, TopupSuccessActivity::class.java)
-                    startActivity(intent)
-                } else {
-                    openLocker(d.locker_no ?: "", d.event_type!!, d.locker_commands!!, d.txn)
-                }
-            } else {
+            if (appPref.currentTransactionType == TransactionType.GO_OUT) {
+                val intent = Intent(this@BaseActivity, CpConfirmOpenActivity::class.java)
+                intent.putExtra("locker_no", d.locker_no)
+                intent.putExtra("locker_commands", d.locker_commands)
+                intent.putExtra("event_type", d.event_type)
+                startActivity(intent)
+            } else if (appPref.currentTransactionType == TransactionType.PUDO_SENDER_WALKIN) {
                 val cmd = Gson().fromJson(d.locker_commands, JsonObject::class.java)
                 PudoSenderOrderConfirmActivity.currentLockerName = d.locker_no!!
                 PudoSenderOrderConfirmActivity.currentLockerNo = cmd.keySet().first().toInt()
@@ -133,6 +132,13 @@ open class BaseActivity : AppCompatActivity() {
                 PudoSenderOrderConfirmActivity.currentInQuireCommand = jsonObj["inquire"].toString()
                 val intent = Intent(this@BaseActivity, PudoSenderOrderConfirmActivity::class.java)
                 startActivity(intent)
+            } else {
+                if (d.event_type == "topup") {
+                    val intent = Intent(this@BaseActivity, TopupSuccessActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    openLocker(d.locker_no ?: "", d.event_type!!, d.locker_commands!!, d.txn)
+                }
             }
         }
     }

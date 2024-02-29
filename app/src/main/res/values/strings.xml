@@ -286,10 +286,24 @@
     <string name="get_adidas">รับรองเท้า อาดิดาส</string>
     <string name="return_adidas_sms">กรุณาใส่รหัสส่งคืนที่ได้รับทาง SMS</string>
     <string name="get_adidas_sms">กรุณาใส่รหัสรับของที่ได้รับทาง SMS</string>
+    <string name="change">ขอตู้ใหม่</string>
+    <string name="new_locker">ขอตู้ใหม่</string>
+    <string name="new_locker_2">กรุณาเลือกขนาดตู้ใหม่</string>
+    <string name="new_same_size">ขอตู้ขนาดเดิม</string>
+    <string name="new_bigger_size">ขอตู้ขนาดใหญ่ขึ้น</string>
+    <string name="no">เสร็จสิ้นการทำรายการ</string>
+    <string name="yes">ฝากของเพิ่ม</string>
+    <string name="more">ต้องการฝากของต่อใช่หรือไม่</string>
+    <string name="go_service_summary">ไม่คิดค่าบริการนำฝาก XXX ชั่วโมงแรก</string>
+    <string name="pcs">ชิ้น</string>
+    <string name="over">เกิน</string>
+    <string name="parcel">พัสดุ</string>
+    <string name="time_use">เวลาใช้งาน</string>
+    <string name="mm">น.</string>
+
 
     <string name="select_lang">เลือกภาษา</string>
     <string name="selected_lang">TH</string>
-
 </resources>
 
 

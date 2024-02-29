@@ -9,7 +9,9 @@ import com.lockboxth.lockboxkiosk.helpers.BaseActivity
 import com.lockboxth.lockboxkiosk.helpers.TransactionType
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
+import com.lockboxth.lockboxkiosk.http.model.go.GoPaymentCancelRequest
 import com.lockboxth.lockboxkiosk.http.model.locker.CancelTransactionRequest
+import com.lockboxth.lockboxkiosk.http.repository.GoRepository
 import com.lockboxth.lockboxkiosk.http.repository.PudoRepository
 import kotlinx.android.synthetic.main.activity_qr_code_payment.*
 
@@ -101,6 +103,18 @@ class QrCodePaymentActivity : BaseActivity() {
                         show(supportFragmentManager, "")
                     }
                 }
+                TransactionType.GO_OUT -> {
+                    PaymentTimeoutDialog.newInstance().apply {
+                        onOkClickListener = {
+                            onTimeout()
+                        }
+                        timeoutCallback = {
+                            onTimeout()
+                        }
+                    }.run {
+                        show(supportFragmentManager, "")
+                    }
+                }
                 else -> {
                     PaymentTimeoutDialog.newInstance().apply {
                         onOkClickListener = {
@@ -116,6 +130,21 @@ class QrCodePaymentActivity : BaseActivity() {
 
             }
         })
+    }
+
+    private fun onTimeout(){
+        showProgressDialog()
+        GoRepository.getInstance().pickupCancel(
+            GoPaymentCancelRequest(appPref.kioskInfo!!.generalprofile_id, appPref.currentTransactionId!!, "timeout"),
+            onSuccess = {
+                hideProgressDialog()
+                goToMainActivity()
+            },
+            onFailure = { error ->
+                hideProgressDialog()
+                showMessage(error)
+            }
+        )
     }
 
     private fun pudoBack(eventType: String) {

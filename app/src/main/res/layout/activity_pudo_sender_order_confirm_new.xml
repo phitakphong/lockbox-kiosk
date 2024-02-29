@@ -7,18 +7,6 @@
     tools:context=".ServiceFeeSummaryActivity">
 
 
-    <com.otaliastudios.cameraview.CameraView
-        android:id="@+id/camera"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:keepScreenOn="true"
-        android:visibility="invisible"
-        app:cameraPictureSizeAspectRatio="1:1"
-        app:cameraPictureSizeMaxHeight="800"
-        app:cameraPictureSizeMaxWidth="800"
-        app:cameraPictureSizeMinHeight="100"
-        app:cameraPictureSizeMinWidth="100" />
-
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -38,12 +26,12 @@
                 android:background="@drawable/ic_red" />
 
             <TextView
-                android:id="@+id/tvTitle0"
+                android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:text="@string/fee_summary"
+                android:text="@string/new_locker"
                 android:textColor="@color/purple"
                 android:textSize="22sp"
                 android:textStyle="bold" />
@@ -91,162 +79,75 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
             android:orientation="horizontal"
             android:padding="8dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="90dp"
-                android:layout_marginRight="90dp"
+                android:layout_marginHorizontal="170dp"
+                android:layout_marginVertical="16dp"
                 android:background="@drawable/card_item_white"
-                android:gravity="center"
-                android:orientation="vertical">
-
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingVertical="32dp">
 
                 <TextView
-                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/new_locker_2"
+                    android:textColor="@color/black" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/btnSame"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/card_item_white_border_gray_radius_16"
+                    android:gravity="center"
+                    android:orientation="horizontal"
                     android:padding="8dp"
-                    android:text=""
-                    android:textAlignment="center"
-                    android:textSize="12sp" />
+                    android:tag="Same">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="?android:attr/listDivider" />
-
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/layoutGo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginVertical="16dp"
-                    android:background="@drawable/card_item_white_border_gray"
-                    android:orientation="horizontal"
-                    android:padding="8dp">
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="0dp"
+                    <TextView
+                        android:id="@+id/tvSame"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:text="@string/new_same_size"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/sender_tel"
-                            android:textColor="@color/purple"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tvSender"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="-"
-                            android:textColor="@color/purple" />
-
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                    <View
-                        android:layout_width="1.5dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="8dp"
-                        android:background="@color/white_2" />
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/receiver_tel"
-                            android:textColor="@color/purple"
-                            android:textStyle="bold" />
-
-                        <TextView
-
-                            android:id="@+id/tvReceiver"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="-"
-                            android:textColor="@color/purple" />
-
-                    </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-                </FrameLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="?android:attr/listDivider" />
-
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/btnBig"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="end|center_vertical"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/card_item_white_border_gray_radius_16"
+                    android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="4dp">
+                    android:padding="8dp"
+                    android:tag="Big">
 
                     <TextView
+                        android:id="@+id/tvBig"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="รวมเป็นเงินที่ต้องชำระ"
-                        android:textColor="@color/purple" />
-
-                    <TextView
-                        android:id="@+id/tvTotal0"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:text=""
-                        android:textColor="@color/purple"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tvTotal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:text="-"
-                        android:textColor="@color/purple"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:text="บาท"
-                        android:textColor="@color/purple" />
+                        android:text="@string/new_bigger_size"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
 
             </androidx.appcompat.widget.LinearLayoutCompat>
+
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -284,7 +185,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
-                    android:text="ยกเลิก"
+                    android:text="@string/cancel"
                     android:textColor="@color/white" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -317,7 +218,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
-                    android:text="ตกลง"
+                    android:text="@string/accept"
                     android:textColor="@color/white" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>

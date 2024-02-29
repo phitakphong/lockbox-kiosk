@@ -87,7 +87,10 @@ class CpConfirmOpenActivity : BaseActivity() {
 
         btnConfirm2.setOnClickListener {
             submit("pickup") {
-                goToMainActivity()
+                val intent = Intent(this@CpConfirmOpenActivity, PaymentSuccessActivity::class.java)
+                intent.putExtra("showSubtitle", false)
+                startActivity(intent)
+                finish()
             }
         }
 
@@ -161,7 +164,7 @@ class CpConfirmOpenActivity : BaseActivity() {
             tvTitle3.visibility = View.VISIBLE
         }
 
-        tvDesc.text = tvDesc.text.toString() + lockerNo
+        tvDesc.text = "${tvDesc.text} $lockerNo"
 
         hardwareService?.setOnDataReceived { s ->
             Log.i("setOnDataReceived", "=============================================================================================")
@@ -205,7 +208,6 @@ class CpConfirmOpenActivity : BaseActivity() {
         commands = Gson().fromJson(lockerCommands, JsonObject::class.java)
 
         open()
-
 
     }
 

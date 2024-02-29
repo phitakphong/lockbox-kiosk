@@ -38,6 +38,7 @@ class PaymentMethodActivity : BaseActivity() {
 
         val req = PaymentMethodRequest(appPref.kioskInfo!!.generalprofile_id, appPref.currentTransactionId!!)
         when (appPref.currentTransactionType) {
+            TransactionType.GO_OUT,
             TransactionType.PUDO_SENDER_WALKIN -> {
                 val amount = intent.getFloatExtra("amount_pay", 0f)
                 val paymentMethod: ArrayList<PaymentMethodResponse> = intent.getParcelableArrayListExtra("payment_method")!!
@@ -91,6 +92,9 @@ class PaymentMethodActivity : BaseActivity() {
             val intent = when (appPref.currentTransactionType) {
                 TransactionType.PUDO_SENDER_WALKIN -> {
                     Intent(this@PaymentMethodActivity, PudoWalkInPaymentSummaryActivity::class.java)
+                }
+                TransactionType.GO_OUT -> {
+                    Intent(this@PaymentMethodActivity, GoPaymentSummaryActivity::class.java)
                 }
                 else -> {
                     Intent(this@PaymentMethodActivity, TotalPaymentSummaryActivity::class.java)

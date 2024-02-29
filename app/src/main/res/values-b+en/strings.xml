@@ -285,6 +285,21 @@
     <string name="get_adidas">Receive adidas</string>
     <string name="return_adidas_sms">Please enter the return PIN received via SMS.</string>
     <string name="get_adidas_sms">Please enter the pickup PIN received via SMS.</string>
+    <string name="change">Request new locker</string>
+    <string name="new_locker">Request new locker</string>
+    <string name="new_locker_2">Please select size</string>
+    <string name="new_same_size">Open similar size</string>
+    <string name="new_bigger_size">Open larger size</string>
+    <string name="no">Done</string>
+    <string name="yes">Drop more parcel</string>
+    <string name="more">Do you want to drop more parcel?</string>
+    <string name="go_service_summary">Free storage for xxx Hours</string>
+    <string name="pcs">Pieces</string>
+    <string name="over">Over</string>
+    <string name="parcel">Parcel</string>
+    <string name="time_use">Total use time</string>
+    <string name="mm">mm.</string>
+    <string name="time_over">Over time xxx days</string>
 
     <string name="select_lang">Select Language</string>
     <string name="selected_lang">EN</string>

@@ -12,11 +12,7 @@ data class GoPickupVerifyResponse(
     val receiver_phone: String,
     val is_ap: Boolean,
     val fee: Float,
-    val amount: Float,
-    val discount: Float,
-    val time_use_hour: Int,
-    val time_use_min: Int,
-    val time_use: Int,
-    val time_over: Int,
-    val details: Map<String, LockerCalculateDetail>
+    val total_amount: Float,
+    val time_limit: Int,
+    val details: Map<String, GoPaymentConfirmDetail>
 )

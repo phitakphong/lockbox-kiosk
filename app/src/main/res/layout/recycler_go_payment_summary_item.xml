@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="2dp">
+
+    <TextView
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No. " />
+
+
+    <TextView
+        android:textColor="@color/black"
+        android:id="@+id/tvLockerNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Size S" />
+
+    <TextView
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" = " />
+
+    <TextView
+        android:textColor="@color/black"
+        android:id="@+id/tvTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_item_white_raduis_4"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="2dp"
+        android:text="1" />
+
+    <TextView
+        android:textColor="@color/black"
+        android:id="@+id/tvOver"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_weight="1"
+        android:text="(No. S01)" />
+
+    <TextView
+        android:textColor="@color/black"
+        android:id="@+id/tvCost"
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:text="30 บาท/ชม."
+        android:textAlignment="textEnd" />
+
+    <TextView
+        android:textColor="@color/black"
+        android:id="@+id/tvTotalCost"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="60 บาท"
+        android:textAlignment="textEnd" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
