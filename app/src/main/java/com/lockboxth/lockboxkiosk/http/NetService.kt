@@ -18,11 +18,11 @@ class NetService private constructor() {
 
     companion object {
 
-        const val baseUrl = "https://api.lockbox-th.com/api/"
-        const val serviceToken = "f2c4a142b3fe39d3fb5a428250e8b2008228e297"
+//        const val baseUrl = "https://api.lockbox-th.com/api/"
+//        const val serviceToken = "f2c4a142b3fe39d3fb5a428250e8b2008228e297"
 
-//        const val baseUrl = "https://api-dev-staging.lockbox-th.com/api/"
-//        const val serviceToken = "6e03bc8215098bfd56b17d034f4f9fb854d1a1ad"
+        const val baseUrl = "https://api-dev-staging.lockbox-th.com/api/"
+        const val serviceToken = "6e03bc8215098bfd56b17d034f4f9fb854d1a1ad"
 
         private var instance: Retrofit? = null
         private val myPrefs: MyPrefs by lazy { MyPrefs(Contextor.getInstance().context) }
