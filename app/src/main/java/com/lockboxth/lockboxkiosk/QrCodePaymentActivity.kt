@@ -67,6 +67,9 @@ class QrCodePaymentActivity : BaseActivity() {
                 tvDesc.visibility = View.VISIBLE
                 tvDesc.text = getString(R.string.please_payment)
             }
+            else -> {
+                tvTimeLimit.visibility = View.GONE
+            }
         }
 
         btnBack.setOnClickListener {
@@ -75,14 +78,15 @@ class QrCodePaymentActivity : BaseActivity() {
                 TransactionType.PUDO_RECEIVER -> {
                     pudoBack("back")
                 }
+                TransactionType.GO_OUT -> {
+                    onBackPressed()
+                }
                 else -> {
                     onBack(appPref.currentTransactionType!!) {
                         onBackPressed()
                     }
                 }
-
             }
-
         }
 
         setTimeoutMinute(timer, tvCountdown, timeoutCallback = {
@@ -132,19 +136,36 @@ class QrCodePaymentActivity : BaseActivity() {
         })
     }
 
-    private fun onTimeout(){
+    private fun onTimeout() {
         showProgressDialog()
-        GoRepository.getInstance().pickupCancel(
-            GoPaymentCancelRequest(appPref.kioskInfo!!.generalprofile_id, appPref.currentTransactionId!!, "timeout"),
-            onSuccess = {
-                hideProgressDialog()
-                goToMainActivity()
-            },
-            onFailure = { error ->
-                hideProgressDialog()
-                showMessage(error)
+        when (appPref.currentTransactionType) {
+            TransactionType.GO_OUT -> {
+                GoRepository.getInstance().pickupCancel(
+                    GoPaymentCancelRequest(appPref.kioskInfo!!.generalprofile_id, appPref.currentTransactionId!!, "timeout"),
+                    onSuccess = {
+                        hideProgressDialog()
+                        goToMainActivity()
+                    },
+                    onFailure = { error ->
+                        hideProgressDialog()
+                        showMessage(error)
+                    }
+                )
             }
-        )
+            else -> {
+                GoRepository.getInstance().pickupCancel(
+                    GoPaymentCancelRequest(appPref.kioskInfo!!.generalprofile_id, appPref.currentTransactionId!!, "timeout"),
+                    onSuccess = {
+                        hideProgressDialog()
+                        goToMainActivity()
+                    },
+                    onFailure = { error ->
+                        hideProgressDialog()
+                        showMessage(error)
+                    }
+                )
+            }
+        }
     }
 
     private fun pudoBack(eventType: String) {

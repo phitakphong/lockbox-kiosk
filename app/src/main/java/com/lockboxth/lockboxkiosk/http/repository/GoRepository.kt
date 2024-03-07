@@ -389,13 +389,7 @@ class GoRepository {
             .unsubscribeOn(Schedulers.io())
             .subscribe({
                 if (it.isSuccessful) {
-                    if (it.body()!!.status) {
-                        onSuccess(it.body()!!.info!!)
-                    } else {
-                        val message = "${it.body()!!.code} : ${it.body()!!.message}"
-                        Log.d("API Response Error", message)
-                        onFailure(it.body()!!.message!!)
-                    }
+                    onSuccess(it.body()!!.info!!)
                 } else {
                     val error = Util.handleResponseErrorMessage(it.errorBody()!!.string())
                     onFailure(error)
