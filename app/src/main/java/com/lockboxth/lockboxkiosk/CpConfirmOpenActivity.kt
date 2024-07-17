@@ -76,6 +76,7 @@ class CpConfirmOpenActivity : BaseActivity() {
                 val intent = Intent(this@CpConfirmOpenActivity, PaymentSuccessActivity::class.java)
                 intent.putExtra("locker_no", lockerNo)
                 startActivity(intent)
+                finish()
             }
         }
 

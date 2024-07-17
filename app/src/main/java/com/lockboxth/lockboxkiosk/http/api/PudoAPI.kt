@@ -135,7 +135,7 @@ interface PudoAPI {
     @POST("kiosk/pudo/courier/select")
     fun selectCourier(
         @Body req: PudoCourierSelectRequest
-    ): Flowable<Response<HttpResponse<Any>>>
+    ): Flowable<Response<HttpResponse<PudoCourierSelectResponse>>>
 
     @POST("kiosk/pudo/courier/verify")
     fun verifyCourier(

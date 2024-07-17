@@ -107,6 +107,7 @@ class GoPaymentSummaryActivity : BaseActivity() {
                         intent.putExtra("locker_commands", cmdJson)
                         intent.putExtra("event_type", resp.event_type)
                         startActivity(intent)
+                        finish()
                     }
                     "CHECKOUT" -> {
                         goPayment(resp)
@@ -186,6 +187,7 @@ class GoPaymentSummaryActivity : BaseActivity() {
             intent.putExtra("has_slip", resp.has_slip)
         }
         startActivity(intent)
+        finish()
     }
 
     override fun onResume() {

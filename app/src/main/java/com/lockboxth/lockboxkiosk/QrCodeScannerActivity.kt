@@ -18,6 +18,7 @@ import com.lockboxth.lockboxkiosk.http.model.personal.VerifyBookingRequest
 import com.lockboxth.lockboxkiosk.http.model.pudo.PudoCourierParcelRequest
 import com.lockboxth.lockboxkiosk.http.model.pudo.PudoReceiverVerifyRequest
 import com.lockboxth.lockboxkiosk.http.model.pudo.PudoSenderVerifyRequest
+import com.lockboxth.lockboxkiosk.http.model.pudo.PudoVerifyCourierRequest
 import com.lockboxth.lockboxkiosk.http.repository.CpRepository
 import com.lockboxth.lockboxkiosk.http.repository.PersonalRepository
 import com.lockboxth.lockboxkiosk.http.repository.PudoRepository
@@ -26,6 +27,7 @@ import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.CameraView
 import com.otaliastudios.cameraview.PictureResult
 import kotlinx.android.synthetic.main.activity_qr_code_scanner.*
+import kotlinx.android.synthetic.main.recycler_locker_item.lockerNo
 import java.io.ByteArrayOutputStream
 
 class QrCodeScannerActivity : BaseActivity() {
@@ -85,12 +87,15 @@ class QrCodeScannerActivity : BaseActivity() {
                         TransactionType.BOOKING -> {
                             checkBookingQrCode()
                         }
+
                         TransactionType.PUDO_SENDER -> {
                             checkPudoSendQrCode()
                         }
+
                         TransactionType.PUDO_RECEIVER -> {
                             checkReceiver()
                         }
+
                         TransactionType.PUDO_COURIER_SENDER -> {
                             if (this.camera.isOpened) {
                                 this.camera.takePicture()
@@ -98,6 +103,11 @@ class QrCodeScannerActivity : BaseActivity() {
                                 checkPudoCourierSender()
                             }
                         }
+
+                        TransactionType.PUDO_COURIER_PICKUP -> {
+                            checkPudoCourierQr()
+                        }
+
                         TransactionType.PUDO_CP_DROP -> {
                             if (this.camera.isOpened) {
                                 this.camera.takePicture()
@@ -105,6 +115,7 @@ class QrCodeScannerActivity : BaseActivity() {
                                 checkPudoPartnerSender()
                             }
                         }
+
                         else -> {
                             showMessage("INVALID TRANSACTION")
                         }
@@ -169,9 +180,11 @@ class QrCodeScannerActivity : BaseActivity() {
                 TransactionType.PUDO_COURIER_SENDER -> {
                     checkPudoCourierSender(base64)
                 }
+
                 TransactionType.PUDO_CP_DROP -> {
                     checkPudoPartnerSender(base64)
                 }
+
                 else -> {
 
                 }
@@ -229,7 +242,7 @@ class QrCodeScannerActivity : BaseActivity() {
             },
             onFailure = { error ->
                 hideProgressDialog()
-                showMessage(error, timer = false){
+                showMessage(error, timer = false) {
                     using = true
                 }
             }
@@ -271,6 +284,33 @@ class QrCodeScannerActivity : BaseActivity() {
                     }
                 }.run {
                     show(supportFragmentManager, "")
+                }
+            }
+        )
+    }
+
+    private fun checkPudoCourierQr() {
+        val req = PudoVerifyCourierRequest(
+            appPref.kioskInfo!!.generalprofile_id,
+            appPref.currentTransactionId!!,
+            currentQrCode
+        )
+        PudoRepository.getInstance().verifyCourier(
+            req,
+            onSuccess = { r ->
+                hideProgressDialog()
+                val resp = r.parcel_list.first()
+                val intent = Intent(this@QrCodeScannerActivity, CourierQrSummaryActivity::class.java)
+                intent.putExtra("locker_no", resp.locker_no)
+                intent.putExtra("tracking_no", resp.tracking_number)
+                intent.putExtra("locker_commands", Gson().toJson(resp.locker_commands))
+                startActivity(intent)
+                finish()
+            },
+            onFailure = { error ->
+                hideProgressDialog()
+                showMessage(error.message ?: "", timer = false) {
+                    using = true
                 }
             }
         )

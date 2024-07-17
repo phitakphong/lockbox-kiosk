@@ -300,6 +300,15 @@
     <string name="time_use">Total use time</string>
     <string name="mm">mm.</string>
     <string name="time_over">Over time xxx days</string>
+    <string name="adds_more">Deposit More</string>
+    <string name="wait_pickup">Parcel awaiting pick-up</string>
+    <string name="confirm_receive_2">Confirm receipt of parcel</string>
+    <string name="locker_no">Locker number</string>
+    <string name="recieve_tracking_no">Parcel number</string>
+    <string name="more2">Do you want to receive the next parcel?</string>
+    <string name="no2">Transaction completed</string>
+    <string name="yes2">Receive additional parcel</string>
+    <string name="rec2">Please collect the parcel from the locker number XXXXX and close the locker properly</string>
 
     <string name="select_lang">Select Language</string>
     <string name="selected_lang">EN</string>

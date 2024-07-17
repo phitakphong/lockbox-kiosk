@@ -31,8 +31,13 @@ class LockerActivity : BaseActivity() {
                 startActivity(intent)
             }
             finish()
+        }
 
-
+        lockerAdds.setOnClickListener {
+            appPref.outType = "adds"
+            appPref.currentTransactionType = TransactionType.OUT
+            val intent = Intent(this@LockerActivity, RegisterActivity::class.java)
+            startActivity(intent)
         }
 
         lockerOut.setOnClickListener {
@@ -41,6 +46,7 @@ class LockerActivity : BaseActivity() {
                 val intent = Intent(this@LockerActivity, LockerPasswordActivity::class.java)
                 startActivity(intent)
             } else {
+                appPref.outType = "clear"
                 appPref.currentTransactionType = TransactionType.OUT
                 val intent = Intent(this@LockerActivity, RegisterActivity::class.java)
                 startActivity(intent)

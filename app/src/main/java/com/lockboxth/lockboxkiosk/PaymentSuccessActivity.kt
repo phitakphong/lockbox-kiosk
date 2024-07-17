@@ -7,6 +7,7 @@ import android.os.Looper
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.lockboxth.lockboxkiosk.helpers.BaseActivity
@@ -55,6 +56,11 @@ class PaymentSuccessActivity : BaseActivity() {
                 TransactionType.ADIDAS_DROP -> {
                     tvLockerNo.text = getString(R.string.success_hint).replace("XXXXX", lockerNo)
                 }
+
+                TransactionType.PUDO_COURIER_PICKUP -> {
+                    tvLockerNo.text = getString(R.string.rec2).replace("XXXXX", lockerNo)
+                }
+
                 else -> {
                     tvLockerNo.text = lockerNo
                 }
@@ -152,21 +158,40 @@ class PaymentSuccessActivity : BaseActivity() {
 
         }
 
-        if (appPref.currentTransactionType == TransactionType.GO_IN) {
-            btnMore.visibility = View.VISIBLE
-            btnNo.setOnClickListener {
-                appPref.currentTransactionId = null
-                onCancel()
+        when (appPref.currentTransactionType) {
+            TransactionType.GO_IN -> {
+                btnMore.visibility = View.VISIBLE
+                btnNo.setOnClickListener {
+                    appPref.currentTransactionId = null
+                    onCancel()
+                }
+                btnYes.setOnClickListener {
+                    val intent = Intent(this@PaymentSuccessActivity, RegisterActivity::class.java)
+                    intent.putExtra("isGoOut", true)
+                    startActivity(intent)
+                    finish()
+                }
             }
-            btnYes.setOnClickListener {
-                val intent = Intent(this@PaymentSuccessActivity, RegisterActivity::class.java)
-                intent.putExtra("isGoOut", true)
-                startActivity(intent)
-                finish()
+
+            TransactionType.PUDO_COURIER_PICKUP -> {
+                if (appPref.outType == "qr") {
+                    btnMore.visibility = View.VISIBLE
+                    tvMore.text = getString(R.string.more2)
+                    tvNo.text = getString(R.string.no2)
+                    tvYes.text = getString(R.string.yes2)
+                    btnYes.setOnClickListener {
+                        val intent = Intent(this@PaymentSuccessActivity, QrCodeScannerActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                }
             }
-        } else {
-            btnMore.visibility = View.GONE
+
+            else -> {
+                btnMore.visibility = View.GONE
+            }
         }
+
     }
 
     private fun processRead() {
@@ -198,6 +223,7 @@ class PaymentSuccessActivity : BaseActivity() {
                             }
                         )
                     }
+
                     TransactionType.PUDO_SENDER_WALKIN -> {
                         val req = LockerFinishRequest(appPref.kioskInfo!!.generalprofile_id, appPref.currentTransactionId!!, eventType, results)
                         PudoRepository.getInstance().walkInCallback(
@@ -208,6 +234,7 @@ class PaymentSuccessActivity : BaseActivity() {
                             }
                         )
                     }
+
                     TransactionType.PUDO_CP_DROP -> {
                         val req = PudoSenderFinishRequest(appPref.kioskInfo!!.generalprofile_id, appPref.currentTransactionId!!, "drop")
                         CpRepository.getInstance().senderFinish(
@@ -218,6 +245,7 @@ class PaymentSuccessActivity : BaseActivity() {
                             }
                         )
                     }
+
                     TransactionType.PUDO_CP_PICKUP -> {
                         val req = LockerFinishRequest(appPref.kioskInfo!!.generalprofile_id, appPref.currentTransactionId!!, eventType, results)
                         CpRepository.getInstance().receiverFinish(
@@ -228,6 +256,11 @@ class PaymentSuccessActivity : BaseActivity() {
                             }
                         )
                     }
+
+                    TransactionType.PUDO_COURIER_PICKUP -> {
+                        Log.d("PUDO_COURIER_PICKUP", "PUDO_COURIER_PICKUP")
+                    }
+
                     else -> {
 
                         if (eventType == "unlock_emergency") {

@@ -3,6 +3,7 @@ package com.lockboxth.lockboxkiosk.http
 import com.lockboxth.lockboxkiosk.helpers.Contextor
 import com.lockboxth.lockboxkiosk.helpers.MyPrefs
 import com.google.gson.GsonBuilder
+import com.lockboxth.lockboxkiosk.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -18,14 +19,14 @@ class NetService private constructor() {
 
     companion object {
 
-        const val baseUrl = "https://api.lockbox-th.com/api/"
-        const val serviceToken = "f2c4a142b3fe39d3fb5a428250e8b2008228e297"
-
-//        const val baseUrl = "https://api-dev-staging.lockbox-th.com/api/"
-//        const val serviceToken = "6e03bc8215098bfd56b17d034f4f9fb854d1a1ad"
-
         private var instance: Retrofit? = null
         private val myPrefs: MyPrefs by lazy { MyPrefs(Contextor.getInstance().context) }
+
+//        val API_ENDPOINT = "https://api.lockbox-th.com/api/"
+//        val API_TOKEN = "f2c4a142b3fe39d3fb5a428250e8b2008228e297"
+
+        val API_ENDPOINT = "https://api-dev-staging.lockbox-th.com/api/"
+        val API_TOKEN = "6e03bc8215098bfd56b17d034f4f9fb854d1a1ad"
 
         @JvmStatic
         fun getRetrofit(): Retrofit {
@@ -45,7 +46,7 @@ class NetService private constructor() {
 //                            if (myPrefs.userToken != null && !myPrefs.userToken!!.token.isNullOrEmpty()) {
                             request.addHeader(
                                 "Authorization",
-                                "Token $serviceToken"
+                                "Token $API_TOKEN"
                             )
 //                            }
                             chain.proceed(
@@ -55,7 +56,7 @@ class NetService private constructor() {
                         addInterceptor(interceptor)
                         addInterceptor(UnauthorizedInterceptor())
                     }
-                instance = Retrofit.Builder().baseUrl(baseUrl)
+                instance = Retrofit.Builder().baseUrl(API_ENDPOINT)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(createGsonConverter())
                     .client(client.build())

@@ -29,7 +29,9 @@ class PudoCardIdentifyActivity : BaseActivity() {
 
         readIdCard()
 
-//        verify(PudoPersonal("0000000000000", "NameTH", "Address"))
+//        if (BuildConfig.C_ENV == "LOCAL") {
+//            verify(PudoPersonal("0000000000000", "NameTH", "Address"))
+//        }
 
         btnCancel.setOnClickListener {
             onCancel()

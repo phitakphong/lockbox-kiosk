@@ -34,5 +34,15 @@ class SelectLanguageDialog : DialogFragment() {
         btnEn.setOnClickListener {
             onSelectedListener?.invoke("en")
         }
+        btnChn.setOnClickListener {
+            onSelectedListener?.invoke("chn")
+        }
+        btnJpn.setOnClickListener {
+            onSelectedListener?.invoke("jpn")
+        }
+        btnKrn.setOnClickListener {
+            onSelectedListener?.invoke("krn")
+        }
+
     }
 }

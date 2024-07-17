@@ -108,11 +108,6 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
-
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-
-    }
-
     private fun subscribeOpenLocker() {
         openLockerSubscriber = NotificationsManager.instance!!.getNotificationObservable().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe { data ->
             Log.d("OpenLocker", "getNotificationObservable")
@@ -215,10 +210,6 @@ open class BaseActivity : AppCompatActivity() {
         timerStart(milliLeft)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-    }
-
     fun showMessage(message: String, timer: Boolean = true, allowCancel: Boolean = true, onAcceptClick: (() -> Unit)? = null) {
         try {
             AlertMessageDialog.newInstance(message).apply {
@@ -316,6 +307,9 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun goToMainActivity() {
+        if (timer != null) {
+            timerPause()
+        }
         val intent = Intent(this@BaseActivity, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
@@ -361,6 +355,13 @@ open class BaseActivity : AppCompatActivity() {
             rootLayout?.viewTreeObserver?.removeGlobalOnLayoutListener(keyboardLayoutListener)
         }
         super.onDestroy()
+    }
+
+    override fun onStop() {
+        if (timer != null) {
+            timerPause()
+        }
+        super.onStop()
     }
 
     fun setLocale(languageCode: String) {

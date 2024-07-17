@@ -103,6 +103,7 @@ class MainActivity : BaseActivity() {
         appPref.currentTransactionId = null
         appPref.currentBookingId = null
         appPref.currentVerifyType = null
+        appPref.outType = null
 
         checkPermission()
 
@@ -131,7 +132,7 @@ class MainActivity : BaseActivity() {
             onSuccess = { resp ->
                 hideProgressDialog()
                 appPref.currentConfig = resp.main_menu
-                if (resp.main_menu.find { m -> m.id == 1 } != null) {
+                if (resp.main_menu.find { m -> m.id == 1  ||  m.id == 8 } != null) {
                     locker.visibility = View.VISIBLE
                     booking.visibility = View.VISIBLE
                 }

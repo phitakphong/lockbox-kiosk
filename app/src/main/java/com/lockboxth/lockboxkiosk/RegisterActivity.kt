@@ -98,22 +98,28 @@ class RegisterActivity : BaseActivity() {
             TransactionType.IN -> {
                 initIn()
             }
+
             TransactionType.OUT -> {
                 initOut()
             }
+
             TransactionType.TOPUP -> {
                 initTopup()
             }
+
             TransactionType.BOOKING -> {
                 initBooking()
             }
+
             TransactionType.PUDO_SENDER_WALKIN -> {
                 initPudoWalkin()
             }
+
             TransactionType.GO_IN -> {
                 isGoOut = intent.getBooleanExtra("isGoOut", false)
                 initGoIn()
             }
+
             else -> {}
         }
 
@@ -240,7 +246,7 @@ class RegisterActivity : BaseActivity() {
             val phoneNumber = getPhoneNumber()
             if (phoneNumber.isNotEmpty()) {
                 showProgressDialog()
-                val req = VerifyOutPersonalRequest(appPref.kioskInfo!!.generalprofile_id, phoneNumber)
+                val req = VerifyOutPersonalRequest(appPref.kioskInfo!!.generalprofile_id, phoneNumber, appPref.outType!!, appPref.currentLanguage)
                 PersonalRepository.getInstance().verifyOut(
                     req,
                     onSuccess = { resp ->
@@ -292,7 +298,7 @@ class RegisterActivity : BaseActivity() {
         tvTitle2.visibility = View.VISIBLE
         tvTitle2.setTextColor(ContextCompat.getColor(this, R.color.sender))
         tvTitle0.text = getString(R.string.go_phone_number)
-        if(isGoOut){
+        if (isGoOut) {
             tvTitle2.text = getString(R.string.go_out)
             tvTitle2.setTextColor(ContextCompat.getColor(this, R.color.receiver))
         }
@@ -371,6 +377,7 @@ class RegisterActivity : BaseActivity() {
                     show(supportFragmentManager, "")
                 }
             }
+
             "MEMBER_NOT_FOUND" -> {
                 if (appPref.currentTransactionType == TransactionType.TOPUP) {
                     RequireRegisterDialog.newInstance().apply {
@@ -399,6 +406,7 @@ class RegisterActivity : BaseActivity() {
 
                 }
             }
+
             else -> {
                 showMessage(error.message!!)
             }
@@ -452,6 +460,7 @@ class RegisterActivity : BaseActivity() {
                     startActivity(intent)
                     finish()
                 }
+
                 else -> {
                     if (verifyType == "rfid") {
                         val intent = Intent(this@RegisterActivity, RfidVerifyActivity::class.java)

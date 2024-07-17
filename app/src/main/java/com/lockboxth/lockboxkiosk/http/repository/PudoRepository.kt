@@ -470,7 +470,7 @@ class PudoRepository {
             })
     }
 
-    fun selectCourier(req: PudoCourierSelectRequest, onSuccess: () -> Unit, onFailure: (HttpResponse<Any>) -> Unit) {
+    fun selectCourier(req: PudoCourierSelectRequest, onSuccess: (PudoCourierSelectResponse) -> Unit, onFailure: (HttpResponse<Any>) -> Unit) {
         val api = NetService.getRetrofit().create(PudoAPI::class.java)
         api.selectCourier(req)
             .subscribeOn(Schedulers.io())
@@ -479,7 +479,7 @@ class PudoRepository {
             .subscribe({
                 if (it.isSuccessful) {
                     if (it.body()!!.status) {
-                        onSuccess()
+                        onSuccess(it.body()!!.info)
                     } else {
                         val message = "${it.body()!!.code} : ${it.body()!!.message}"
                         Log.d("API Response Error", message)

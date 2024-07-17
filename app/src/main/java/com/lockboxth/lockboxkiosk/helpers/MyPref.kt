@@ -141,6 +141,18 @@ class MyPrefs(val context: Context) : Prefs(context) {
                 prefs.edit().remove(CONFIG).apply()
             }
         }
+
+    var outType: String?
+        get() {
+            return prefs.getString("OUT_TYPE", null)
+        }
+        set(value) {
+            if (value != null) {
+                prefs.edit().putString("OUT_TYPE", value).apply()
+            } else {
+                prefs.edit().remove("OUT_TYPE").apply()
+            }
+        }
 }
 
 enum class ParcelType {
@@ -157,6 +169,6 @@ enum class TransactionType {
     IN, OUT,
     TOPUP,
     BOOKING,
-    PUDO_SENDER, PUDO_SENDER_WALKIN, PUDO_COURIER_PICKUP, PUDO_COURIER_SENDER, PUDO_RECEIVER, PUDO_CP_DROP, PUDO_CP_PICKUP,ADIDAS_DROP, ADIDAS_PICKUP,
+    PUDO_SENDER, PUDO_SENDER_WALKIN, PUDO_COURIER_PICKUP, PUDO_COURIER_SENDER, PUDO_RECEIVER, PUDO_CP_DROP, PUDO_CP_PICKUP, ADIDAS_DROP, ADIDAS_PICKUP,
     GO_IN, GO_OUT;
 }

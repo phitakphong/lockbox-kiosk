@@ -13,13 +13,13 @@ data class PudoShipmentItem(
     val shipment_id: Int,
     val name: String,
     val image_url: String,
-    val fee: Int
+    val fee: Float
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readInt()
+        parcel.readFloat()
     ) {
     }
 
@@ -27,7 +27,7 @@ data class PudoShipmentItem(
         parcel.writeInt(shipment_id)
         parcel.writeString(name)
         parcel.writeString(image_url)
-        parcel.writeInt(fee)
+        parcel.writeFloat(fee)
     }
 
     override fun describeContents(): Int {

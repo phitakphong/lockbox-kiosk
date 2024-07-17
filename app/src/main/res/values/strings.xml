@@ -301,6 +301,15 @@
     <string name="time_use">เวลาใช้งาน</string>
     <string name="mm">น.</string>
     <string name="time_over">เวลาใช้งานส่วนเกิน XXX วัน</string>
+    <string name="adds_more">ฝากของเพิ่ม</string>
+    <string name="wait_pickup">พัสดุรอรับ</string>
+    <string name="confirm_receive_2">ยืนยันการรับพัสดุ</string>
+    <string name="locker_no">หมายเลขตู้ล็อกเกอร์</string>
+    <string name="recieve_tracking_no">หมายเลขพัสดุ</string>
+    <string name="more2">ต้องการรับพัสดุต่อใช่หรือไม่</string>
+    <string name="no2">ทำรายการเสร็จสิ้น</string>
+    <string name="yes2">รับพัสดุเพิ่ม</string>
+    <string name="rec2">กรุณารับพัสดุตู้ล็อคเกอร์หมายเลข XXXXX และปิดตู้ให้เรียบร้อย</string>
 
     <string name="select_lang">เลือกภาษา</string>
     <string name="selected_lang">TH</string>
